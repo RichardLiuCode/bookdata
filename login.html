@@ -1,0 +1,52 @@
+
+<!DOCTYPE html>
+<html>
+
+<head>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
+    <script src="firebase.js"></script>
+    <link rel="stylesheet" href="login.css">
+    <title>Login</title>
+    <meta name="viewport" content="width=device-width initial-scale=0.7">
+</head>
+
+<body>
+    <h1 class="MAIN-h1">Login</h1>
+    <br>
+    <input id="user" placeholder="Enter your Email" type="email">
+    <br>
+    <input id="pass" placeholder="Enter you Password" type="password">
+    <br>
+    <div class="SubmitButtonContainer">
+        <p class="signUpHint">Do not have an account? <a href="signup.html">Sign Up</a></p>
+        <button id="login">Login</button>
+    </div>
+    <br>
+    <p id="status"></p>
+    <script>
+        window.onload = function () {
+            auth.onAuthStateChanged(function (user) {
+                if (user) {
+                    window.location.replace("main.html")
+                }
+            })
+        }
+        document.getElementById("login").addEventListener("click", function () {
+            var user = document.getElementById("user").value;
+            var pass = document.getElementById("pass").value;
+            auth.signInWithEmailAndPassword(user, pass)
+                .then(function () {
+                    window.location.replace("main.html")
+                })
+                .catch(function (error) {
+                    document.getElementById("status").innerText = error.toString().replace("Error: ", "");
+                    setTimeout(function () {
+                        document.getElementById("status").innerText = ""
+                    }, 3150);
+                })
+        })
+    </script>
+</body>
+
+</html>

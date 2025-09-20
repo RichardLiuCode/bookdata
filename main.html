@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <input id="input1" placeholder="Title">
+    <br>
+    <input id="input2" placeholder="Author">
+    <br>
+    <input id="input3" placeholder="Location">
+    <br>
+    <button id="save">Save</button>
+    <button id="signout">Signout</button>
+    <br>
+    <table id="display">
+        <tr>
+            <th>Title</th>
+            <th>Author</th>
+            <th>Location</th>
+        </tr>
+    </table>
+    <script src="script.js"></script>
+    <script>
+        document.getElementById("signout").addEventListener("click", function () {
+            auth.signOut()
+                .then(function () {
+                    window.location.replace("login.html");
+                })
+        })
+    </script>
+</body>
+
+</html>

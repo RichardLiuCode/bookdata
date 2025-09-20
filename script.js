@@ -10,45 +10,54 @@ const firebaseConfig = {
 
 // Initialize Firebase
 firebase.initializeApp(firebaseConfig);
-
 const database = firebase.database();
+const auth = firebase.auth();
 
-document.getElementById("save").addEventListener("click", function () {
-    const input = {
-        "Title": document.getElementById("input1").value,
-        "Author": document.getElementById("input2").value,
-        "Location": document.getElementById("input3").value
-    }
-    database.ref("Books").push(input);
-    window.location.reload()
-})
-
-window.onload = function () {
-    database.ref("Books").once("value")
-        .then(function (data) {
-            data.forEach(function (child) {
-                const resultData = child.val()
-                console.log(resultData);
-                let tr = document.createElement("tr");
-
-                let titleBox = document.createElement("td");
-                titleBox.innerText = resultData.Title;
-
-                let authorBox = document.createElement("td");
-                authorBox.innerText = resultData.Author;
-
-                let locationBox = document.createElement("td");
-                locationBox.innerText = resultData.Location;
-
-                tr.appendChild(titleBox);
-                tr.appendChild(authorBox);
-                tr.appendChild(locationBox);
-
-                document.getElementById("display").appendChild(tr)
+auth().onStateChanged(function (user) {
+    if (user) {
 
 
-            });
-
+        document.getElementById("save").addEventListener("click", function () {
+            const input = {
+                "Title": document.getElementById("input1").value,
+                "Author": document.getElementById("input2").value,
+                "Location": document.getElementById("input3").value
+            }
+            database.ref("Users/" + user.uid).push(input);
+            window.location.reload()
         })
 
-}
+        window.onload = function () {
+            database.ref("Users/" + user.uid).once("value")
+                .then(function (data) {
+                    data.forEach(function (child) {
+                        const resultData = child.val()
+                        console.log(resultData);
+                        let tr = document.createElement("tr");
+
+                        let titleBox = document.createElement("td");
+                        titleBox.innerText = resultData.Title;
+
+                        let authorBox = document.createElement("td");
+                        authorBox.innerText = resultData.Author;
+
+                        let locationBox = document.createElement("td");
+                        locationBox.innerText = resultData.Location;
+
+                        tr.appendChild(titleBox);
+                        tr.appendChild(authorBox);
+                        tr.appendChild(locationBox);
+
+                        document.getElementById("display").appendChild(tr)
+
+
+                    });
+
+                })
+
+        }
+
+    } else {
+        alert()
+    }
+})
